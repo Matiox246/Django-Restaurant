@@ -1,0 +1,117 @@
+{% extends "dashboard.html" %}
+{% block main %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;        
+            & div{
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+                align-items: left;
+                gap: 10px;               
+            }
+            & .last-row{
+                color:white;
+                padding: 5px;
+                border-radius: 4px;
+                flex: 0 0 auto;
+                
+            }
+            & .green{
+                background-color: green;
+                
+            }
+            & .red{
+                background-color: red;
+                
+            }
+            & .blue{
+                background-color: blue;
+               
+            }
+        }
+        .no-line{
+            border: transparent;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                {% if user.is_superuser %}
+                <th>Author</th>
+                <th>Date Published</th>
+                {% endif %}
+                <th>Category</th>    
+                <th>Publish status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for blog in accountblogs %}
+            <tr>
+                <td><img src="{{blog.image.url}}" alt="BLog Tumbnail"></td>
+                <td>
+                    {% if blog.is_published or user.is_superuser%}
+                    <span title="article is published">{{blog.title}}</span>
+                    {% else %}
+                    <a href="{% url 'blog:update_blog' blog.pk %}">{{blog.title}}</a>
+                    {% endif %}
+                    </td>
+                {% if user.is_superuser %}
+                <td>{{blog.author}}</td>
+                <td>{{blog.publish_at}}</td>
+                {% endif %}
+                <td>{{blog.category}}</td>
+                {% if blog.is_published %}
+                <td>
+                    <div>
+                        <span class="last-row green">Published</span>
+                        <a href="/blog/{{blog.slug}}"><span class="last-row blue">See in weblog</span></a>
+                    </div>
+                </td>
+                    
+                
+                {% else %}
+                <td>
+                    <div>
+                        <span class="last-row red">Draft</span>
+                    </div>
+                </td> 
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+</body>
+</html>
+
+{% endblock main %}

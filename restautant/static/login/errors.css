@@ -1,0 +1,25 @@
+.errors{
+    position: absolute;
+    top: 0;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #fcd9ac, #D0A772);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    & span{
+        font-size: 18px;
+        color: rgb(255, 60, 60);
+    }
+}
+.field-error{
+    color: white;
+    display: flex;
+    gap: 5px;
+    
+    align-items: center;
+    
+    & span{
+        font-size: 18px;
+    }
+
+}

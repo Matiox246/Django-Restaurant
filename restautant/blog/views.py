@@ -5,7 +5,7 @@ from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Blog, Tag, Category, Comment
+from .models import Article, Tag, Category, Comment
 from .forms import CommentForm
 from .mixins import FieldMixin, FormValidMixins, AutorAccessMixins
 
@@ -15,27 +15,19 @@ from .mixins import FieldMixin, FormValidMixins, AutorAccessMixins
 # Create your views here.
 
 
-# def blog_list(request):
-#     blogs = Blog.objects.all()
-
-#     paginator = Paginator(blogs, 3)
-#     page_number = request.GET.get("page")
-#     blog_list = paginator.get_page(page_number)
-
-#     context =  {
-#         "blog_list":blog_list,
-        
-#     }
-#     return render(request, "blog/blog_list.html", context)
+class ArticleListView(ListView):
+    model = Article
+    paginate_by = 3
+    queryset = Article.objects.order_by('-publish_at')
 
 
 
 def blog_detail(request, slug):
-    blog = get_object_or_404(Blog, slug=slug)
-    tags = Tag.objects.all().filter(blogs=blog)
-    recents = Blog.objects.all().order_by("publish_at")[:5]
+    article = get_object_or_404(Article, slug=slug)
+    tags = Tag.objects.all().filter(blogs=article)
+    recents = Article.objects.all().order_by("publish_at")[:5]
     categories = Category.objects.all()
-    comments = Comment.objects.all().filter(blog=blog)
+    comments = Comment.objects.all().filter(article=article)
 
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -45,21 +37,21 @@ def blog_detail(request, slug):
             new_message = form.cleaned_data["message"]
 
 
-            new_comment = Comment(blog=blog, name=new_name, email=new_email, message=new_message)
+            new_comment = Comment(article=article, name=new_name, email=new_email, message=new_message)
             new_comment.save()
 
     context = {
-    "blog":blog,
+    "article":article,
     "tags": tags,
     "recents":recents,
     "categories": categories,
     "comments": comments,
     }
-    return render(request, "blog/blog_detail.html", context)
+    return render(request, "blog/article_detail.html", context)
+
 
 def blog_tag(request, tag):
-    blogs = Blog.objects.filter(tags__slug=tag)
-
+    blogs = Article.objects.filter(tags__slug=tag)
     context = {
         "blogs":blogs
     }
@@ -67,8 +59,7 @@ def blog_tag(request, tag):
 
 
 def blog_category(request, category):
-    blogs = Blog.objects.filter(category__slug=category)
-
+    blogs = Article.objects.filter(category__slug=category)
     context = {
         "blogs":blogs
     }
@@ -76,34 +67,27 @@ def blog_category(request, category):
 
 
 class SearchResultView(ListView):
-    model = Blog
-    template_name = 'blog/blog_list.html'
-    context_object_name = 'blogs'
+    model = Article
+    paginate_by = 3
+    template_name = 'blog/search_result.html'
+    context_object_name = 'articles'
 
     def get_queryset(self):
         query = self.request.GET.get('search', '')
         if query:
-            return Blog.objects.filter(title__icontains=query)
-        return Blog.objects.all()
+            return Article.objects.filter(title__icontains=query)
+        return Article.objects.all()
 
 
 
-class BlogListView(ListView):
-     model = Blog
-     template_name = 'blog/blog_list.html'
-     context_object_name = 'blogs'
 
 class BlogCreateView(LoginRequiredMixin, FieldMixin, FormValidMixins, CreateView):
-    model = Blog
-    template_name = 'blog/create.html'
+    model = Article
     success_url = reverse_lazy('account:blogs')
 
-    # def form_valid(self, form):    old way to auto set autor name in blogs
-    #     form.instance.author = self.request.user # Set the user to the logged-in user
-    #     return super().form_valid(form)
 
 class BlogUpdateView(AutorAccessMixins, FieldMixin, FormValidMixins, UpdateView):
-    model = Blog
+    model = Article
     template_name = 'blog/create.html'
     success_url = reverse_lazy('account:blogs')
 

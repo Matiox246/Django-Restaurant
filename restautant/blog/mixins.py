@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from .models import Blog
+from .models import Article
 
 class FieldMixin():
     def dispatch(self, request, *args, **kwargs):
@@ -44,8 +44,8 @@ class FormValidMixins():
     
 class AutorAccessMixins():
     def dispatch(self, request, pk, *args, **kwargs):
-        blog = get_object_or_404(Blog, pk=pk)
-        if blog.author == request.user and blog.is_published == False or\
+        article = get_object_or_404(Article, pk=pk)
+        if article.author == request.user and article.is_published == False or\
               request.user.is_superuser:
             return super().dispatch(request, *args, **kwargs)            
         else:

@@ -1,19 +1,12 @@
 from django.shortcuts import render
-from . form import ReservationForm
+from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
-
+from .models import Reservation
 # Create your views here.
 
-def reserve(request):
-    reserve_form = ReservationForm()
-    if request.method == "POST":
-        reserve_form = ReservationForm(request.POST)
-        if reserve_form.is_valid():
-            reserve_form.save()
-    else:
-        reserve_form = ReservationForm()
-    context = {
-        "form":reserve_form,
-    }
-
-    return render(request, "reservation/reservation.html", context)
+class CreateReservation(LoginRequiredMixin, CreateView):
+    model = Reservation
+    fields = "__all__"
+    success_url = reverse_lazy('foods:home')

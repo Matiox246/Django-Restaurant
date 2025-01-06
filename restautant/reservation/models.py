@@ -1,15 +1,15 @@
 from django.db import models
-from django.utils.translation import gettext as _
+
 # Create your models here.
 
 class Reservation(models.Model):
-    name = models.CharField(_("نام و نام خانواگی"), max_length=200)
-    email = models.EmailField(_("آدرس الکترونیکی"), max_length=254)
-    phone = models.CharField(_("تلفن"), max_length=20)
-    number = models.IntegerField(_("تعداد"))
-    date = models.DateField(_("تاریخ"), auto_now=False, auto_now_add=False)
-    time = models.TimeField(_("ساعت"), auto_now=False, auto_now_add=False)
+    name = models.CharField("name", max_length=200)
+    email = models.EmailField( max_length=254)
+    phone = models.CharField(max_length=20)
+    number = models.IntegerField()
+    date = models.CharField(max_length=50)
+    time = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.email
+        return self.name
 

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en"><!-- Basic -->
 <head>
+    <base href="/">
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">   
    
@@ -15,48 +16,55 @@
     <meta name="author" content="">
 
     <!-- Site Icons -->
-    <link rel="shortcut icon" href="{% static 'yamifood/images/favicon.ico' %}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{% static 'yamifood/images/apple-touch-icon.png' %}">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'yamifood/css/bootstrap.min.css'%}">    
+    <link rel="stylesheet" href="{% static 'template/css/bootstrap.min.css' %}">    
 	<!-- Site CSS -->
-    <link rel="stylesheet" href="{% static 'yamifood/css/style.css'%}">    
+    <link rel="stylesheet" href="{% static 'template/css/style.css' %}">    
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="{% static 'yamifood/css/responsive.css'%}">
+    <link rel="stylesheet" href="{% static 'template/css/responsive.css' %}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'yamifood/css/custom.css'%}">
+    <link rel="stylesheet" href="{% static 'template/css/custom.css' %}">
 
-    <!--[if lt IE 9]>
+    <!-- reservation styles-->
+    <link rel="stylesheet" href="{% static 'template/css/classic.css' %}">    
+	<link rel="stylesheet" href="{% static 'template/css/classic.date.css' %}">    
+	<link rel="stylesheet" href="{% static 'template/css/classic.time.css' %}"> 
+
+    
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
 <body>
-	<!-- Start header -->
-	 {% include "partials/_header.html" %}
-	<!-- End header -->
-     {% block content %}
-     {%endblock content %}
-    <!-- Start Footer -->
-	{% include "partials/_footer.html" %}
-	<!-- End Footer -->
+
+    {% include "partials/_header.html" %}
+	
+	{% block main %}
+    {% endblock main %}
+	
+    {% include "partials/_footer.html" %}
 	
 	<a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
-
+    
 	<!-- ALL JS FILES -->
-	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-	<script src="{% static 'js/popper.min.js' %}"></script>
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'template/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'template/js/popper.min.js' %}"></script>
+	<script src="{% static 'template/js/bootstrap.min.js' %}"></script>
     <!-- ALL PLUGINS -->
-	<script src="{% static 'yamifood/js/jquery.superslides.min.js' %}"></script>
-	<script src="{% static 'yamifood/js/images-loded.min.js' %}"></script>
-	<script src="{% static 'yamifood/js/isotope.min.js' %}"></script>
-	<script src="{% static 'yamifood/js/baguetteBox.min.js' %}"></script>
-	<script src="{% static 'yamifood/js/form-validator.min.js' %}"></script>
-    <script src="{% static 'yamifood/js/contact-form-script.js' %}"></script>
-    <script src="{% static 'yamifood/js/custom.js' %}"></script>
+	<script src="{% static 'template/js/jquery.superslides.min.js' %}"></script>
+	<script src="{% static 'template/js/images-loded.min.js' %}"></script>
+	<script src="{% static 'template/js/isotope.min.js' %}"></script>
+	<script src="{% static 'template/js/baguetteBox.min.js' %}"></script>
+    <script src="{% static 'template/js/picker.js' %}"></script>
+	<script src="{% static 'template/js/picker.date.js' %}"></script>
+	<script src="{% static 'template/js/picker.time.js' %}"></script>
+    <script src="{% static 'template/js/legacy.js' %}"></script>
+	<script src="{% static 'template/js/form-validator.min.js' %}"></script>
+    <script src="{% static 'template/js/contact-form-script.js' %}"></script>
+    <script src="{% static 'template/js/custom.js' %}"></script>
 </body>
 </html>

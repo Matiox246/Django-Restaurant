@@ -1,11 +1,11 @@
 from django.urls import path
 from . import views
-from .views import BlogCreateView, BlogListView, SearchResultView, BlogUpdateView
+from .views import BlogCreateView, SearchResultView, BlogUpdateView
 
 app_name = "blog"
 
 urlpatterns = [
-    path("", BlogListView.as_view(), name='blog_list'),
+    path("", views.ArticleListView.as_view(), name='blog_list'),
     path('<slug:slug>/', views.blog_detail, name="blog_detail"),
     path('tag/<slug:tag>/', views.blog_tag, name="tag"),
     path("category/<slug:category>", views.blog_category, name="category"), 

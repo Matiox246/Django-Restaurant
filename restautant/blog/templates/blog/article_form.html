@@ -1,0 +1,14 @@
+{% extends "registration/my_account.html" %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form | crispy }}
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock main %}
+
+
+
